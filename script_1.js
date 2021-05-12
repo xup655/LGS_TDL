@@ -1,7 +1,39 @@
+let initData = [
+    {
+        id: 0,
+        title: "Hit the gym",
+        completed: false
+    },
+    {
+        id: 1,
+        title: "Pay bills",
+        completed: true
+    },
+    {
+        id: 2,
+        title: "Meet George",
+        completed: false
+    },
+    {
+        id: 3,
+        title: "Buy eggs",
+        completed: false
+    },
+    {
+        id: 4,
+        title: "Read a book",
+        completed: false
+    },
+    {
+        id: 5,
+        title: "Organize office",
+        completed: false
+    },
+]
 let STORAGE_KEY = "LGS_TDL";
 let todoStorage = {
     fetch: function () {
-        let todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        let todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || JSON.stringify(initData));
         todos.forEach(function (todo, index) {
             todo.id = index;
         });
@@ -13,25 +45,12 @@ let todoStorage = {
     }
 };
 
-let ComponentA = {
-    data() {
-        return {
-            count: 0
-        }
-    },
-    props: ['todo'],
-    template: '<span class="close" @click="removeTodo(todo)">×</span>'
-}
-
 let app = new Vue({
     data() {
         return {
             newTodo: "",
             todos: todoStorage.fetch()
         }
-    },
-    components: {
-        'component-a': ComponentA
     },
     watch: {
         todos: {
@@ -42,15 +61,6 @@ let app = new Vue({
         }
     },
     methods: {
-        // Create a "close" button and append it to each list item
-        // Click on a close button to hide the current list item
-        removeTodo: function (i) {
-            this.todos.splice(this.todos.indexOf(i), 1);
-        },
-        // Add a "checked" symbol when clicking on a list item
-        isChecked(e) {
-            e.completed = !e.completed
-        },
         // Create a new list item when clicking on the "Add" button
         addTodo: function () {
             let value = this.newTodo && this.newTodo.trim();
@@ -64,6 +74,10 @@ let app = new Vue({
             });
             this.newTodo = "";
         },
+        // Click on a close button to hide the current list item
+        removeTodo: function (i) {
+            this.todos.splice(this.todos.indexOf(i), 1);
+        }
     }
 })
 

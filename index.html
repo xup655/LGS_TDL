@@ -29,14 +29,14 @@
         </div>
 
         <ul id="myUL" v-show="todos.length" v-cloak>
-            <li v-for="todo in todos" :key="todo.id" :class="{ checked: todo.completed }">
-                <input :id="todo.id" type="checkbox" hidden v-model="todo.completed" />
-                <label :for="todo.id">{{ todo.title }}</label>
-                <span class="close" @click="removeTodo(todo)">×</span>
+            <li v-for="todo in todos" :key="todo.id" @click="isChecked(todo)" :class="{ checked: todo.completed }">
+                <label>{{ todo.title }}</label>
+                <!-- <span class="close" @click="removeTodo(todo)">×</span> -->
+                <Component-A :todo="todo"></Component-A>
             </li>
         </ul>
     </div>
-    <script src="script_1.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,21 @@
+let initData = [
+    {
+        id: 0,
+        title: "Do Something",
+        completed: false,
+        visible: true
+    },
+    {
+        id: 1,
+        title: "Checked!",
+        completed: true,
+        visible: true
+    }
+];
 let STORAGE_KEY = "LGS_TDL";
 let todoStorage = {
     fetch: function () {
-        let todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        let todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || JSON.stringify(initData));
         todos.forEach(function (todo, index) {
             todo.id = index;
         });
@@ -13,25 +27,12 @@ let todoStorage = {
     }
 };
 
-let ComponentA = {
-    data() {
-        return {
-            count: 0
-        }
-    },
-    props: ['todo'],
-    template: '<span class="close" @click="removeTodo(todo)">×</span>'
-}
-
 let app = new Vue({
     data() {
         return {
-            newTodo: "",
+            inputValue: "",
             todos: todoStorage.fetch()
         }
-    },
-    components: {
-        'component-a': ComponentA
     },
     watch: {
         todos: {
@@ -42,29 +43,29 @@ let app = new Vue({
         }
     },
     methods: {
-        // Create a "close" button and append it to each list item
-        // Click on a close button to hide the current list item
-        removeTodo: function (i) {
-            this.todos.splice(this.todos.indexOf(i), 1);
+        closeTodo: function (element) {
+            element.visible = false;
         },
-        // Add a "checked" symbol when clicking on a list item
-        isChecked(e) {
-            e.completed = !e.completed
+        isChecked(event, todo) {
+            if (event.target.tagName === 'LI') {
+                todo.completed = !todo.completed;
+            }
         },
-        // Create a new list item when clicking on the "Add" button
-        addTodo: function () {
-            let value = this.newTodo && this.newTodo.trim();
+        newElement: function () {
+            let value = this.inputValue && this.inputValue.trim();
             if (!value) {
-                return;
+                alert("You must write something!");
+                return
             }
             this.todos.push({
                 id: todoStorage.uid++,
                 title: value,
-                completed: false
+                completed: false,
+                visible: true
             });
-            this.newTodo = "";
+            this.inputValue = "";
         },
     }
 })
 
-app.$mount("#app")
+app.$mount("#app");

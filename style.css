@@ -8,6 +8,15 @@ body {
   box-sizing: border-box;
 }
 
+[v-cloak] {
+  display: none;
+}
+
+label {
+  display: block;
+  cursor: pointer;
+}
+
 /* Remove margins and padding from the list */
 ul {
   margin: 0;
@@ -18,7 +27,10 @@ ul {
 ul li {
   cursor: pointer;
   position: relative;
-  padding: 12px 8px 12px 40px;
+  padding: 12px 35px 12px 40px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   list-style-type: none;
   background: #eee;
   font-size: 18px;

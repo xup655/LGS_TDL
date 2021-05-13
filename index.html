@@ -8,31 +8,21 @@
     <title>Document</title>
     <script src="https://unpkg.com/vue"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <style>
-        [v-cloak] {
-            display: none;
-        }
-
-        label {
-            display: block;
-            cursor: pointer;
-        }
-    </style>
 </head>
 
 <body>
     <div id="app">
         <div id="myDIV" class="header">
             <h2>My To Do List</h2>
-            <input type="text" id="myInput" placeholder="Title..." v-model="newTodo" @keyup.enter="addTodo">
-            <span @click="addTodo" class="addBtn">Add</span>
+            <input type="text" id="myInput" placeholder="Title..." v-model="inputValue" @keyup.enter="newElement">
+            <span @click="newElement" class="addBtn">Add</span>
         </div>
 
         <ul id="myUL" v-show="todos.length" v-cloak>
-            <li v-for="todo in todos" :key="todo.id" @click="isChecked(todo)" :class="{ checked: todo.completed }">
-                <label>{{ todo.title }}</label>
-                <!-- <span class="close" @click="removeTodo(todo)">×</span> -->
-                <Component-A :todo="todo"></Component-A>
+            <li v-for="todo in todos" :key="todo.id" v-show="todo.visible" @click="isChecked($event, todo)"
+                :class="{ checked: todo.completed }">
+                {{ todo.title }}
+                <span class="close" @click="closeTodo(todo)">×</span>
             </li>
         </ul>
     </div>
